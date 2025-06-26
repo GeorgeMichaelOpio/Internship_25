@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User - User Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .nav-links {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .section h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #f59e0b;
+            padding-bottom: 10px;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #f59e0b;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-info:hover {
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .user-preview {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .user-preview h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .user-preview p {
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .message.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+            border: 2px solid #3b82f6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e5e7eb;
+            border-radius: 50%;
+            border-top-color: #f59e0b;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .form-tips {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-tips h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .form-tips ul {
+            color: #92400e;
+            margin-left: 20px;
+        }
+
+        .form-tips li {
+            margin-bottom: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #updateForm {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .search-section,
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✏️ Update User</h1>
+            <p>Modify existing user information</p>
+            <div class="nav-links">
+                <a href="index.html">🏠 Home</a>
+                <a href="create-user.html">➕ Create User</a>
+                <a href="view-users.html">📋 View Users</a>
+                <a href="delete-user.html">🗑️ Delete User</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Find User Section -->
+            <div class="section">
+                <h2>🔍 Find User to Update</h2>
+                
+                <div class="form-tips">
+                    <h3>📝 How to update a user:</h3>
+                    <ul>
+                        <li>First, enter the User ID and click "Find User"</li>
+                        <li>Review the current information</li>
+                        <li>Fill in only the fields you want to change</li>
+                        <li>Leave fields empty if you don't want to update them</li>
+                    </ul>
+                </div>
+
+                <div class="search-section">
+                    <div class="form-group">
+                        <label for="searchUserId">User ID:</label>
+                        <input type="number" id="searchUserId" placeholder="Enter user ID to find">
+                    </div>
+                    <button onclick="findUserToUpdate()" class="btn-info">Find User</button>
+                </div>
+                <div id="findUserResult"></div>
+            </div>
+
+            <!-- Update Form Section -->
+            <div class="section" id="updateForm">
+                <h2>📝 Update User Information</h2>
+                
+                <div id="currentUserInfo"></div>
+
+                <form id="updateUserForm">
+                    <input type="hidden" id="updateUserId" value="">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateName">👤 Name (optional):</label>
+                            <input type="text" id="updateName" placeholder="Enter new name">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateEmail">📧 Email (optional):</label>
+                            <input type="email" id="updateEmail" placeholder="Enter new email">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateContact">📞 Contact (optional):</label>
+                            <input type="text" id="updateContact" placeholder="Enter new contact">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Update User</button>
+                        <button type="button" class="btn-secondary" onclick="clearUpdateForm()">Clear Changes</button>
+                        <button type="button" class="btn-info" onclick="hideUpdateForm()">Cancel Update</button>
+                    </div>
+                </form>
+
+                <div id="updateUserResult"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
