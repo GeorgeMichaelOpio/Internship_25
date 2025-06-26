@@ -1,7 +1,5 @@
 # Getting Started
 
-Welcome to our internship program! This repository contains the materials and setup instructions for the concepts covered during the internship.
-
 ## Setup Instructions
 
 Follow these steps to get your development environment ready:
